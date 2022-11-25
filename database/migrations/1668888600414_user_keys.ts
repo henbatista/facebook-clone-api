@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class extends BaseSchema {
+export default class UserKeys extends BaseSchema {
   protected tableName = 'user_keys'
 
   public async up() {
