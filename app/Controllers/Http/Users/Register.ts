@@ -4,27 +4,32 @@ import { StoreValidator, UpdateValidator } from 'App/Validators/User/Register'
 import { User, UserKey } from 'App/Models'
 import { faker } from '@faker-js/faker'
 import Mail from '@ioc:Adonis/Addons/Mail'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class UserRegistersController {
   public async store({ request }: HttpContextContract) {
-    const { email, redirectUrl } = await request.validate(StoreValidator)
-    const user = await User.create({ email })
+    await Database.transaction(async (trx) => {
+      const { email, redirectUrl } = await request.validate(StoreValidator)
+      const user = new User()
 
-    await user.save()
-
-    const key = faker.datatype.uuid() + new Date().getTime()
-
-    user.related('keys').create({ key })
-
-    const link = `${redirectUrl.replace(/\/$/, '')}/${ key }`
-
-    await Mail.send((message) => {
-      message.to(email)
-      message.from('contato@facebook.com', 'facebook')
-      message.subject('Account created')
-      message.htmlView('emails/register', { link })
+      user.useTransaction(trx)
+      user.email = email
+  
+      await user.save()
+  
+      const key = faker.datatype.uuid() + new Date().getTime()
+  
+      user.related('keys').create({ key })
+  
+      const link = `${redirectUrl.replace(/\/$/, '')}/${ key }`
+  
+      await Mail.send((message) => {
+        message.to(email)
+        message.from('contato@facebook.com', 'facebook')
+        message.subject('Account created')
+        message.htmlView('emails/register', { link })
+      })
     })
-
   }
 
   public async show({ params }: HttpContextContract) {
