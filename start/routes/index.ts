@@ -9,3 +9,5 @@ Route.get('/', async () => {
 Route.get('/user-register', async ({ view }) => {
   return view.render('emails/register')
 })
+
+Route.get('/forgot-password', 'emails/forgot-password.show')
