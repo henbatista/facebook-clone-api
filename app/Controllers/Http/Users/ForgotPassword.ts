@@ -20,27 +20,28 @@ export default class UserForgotPasswordController {
       message.to(email)
       message.from('contato@facebook.com', 'Facebook')
       message.subject('Recuperação de senha')
-      message.htmlView('mails/forgot-password', { link: link })
+      message.htmlView('emails/forgot-password', { link: link })
     })
   }
 
   public async show({ params }: HttpContextContract) {
-    await UserKey.findByOrFail('key', params.key)
+    const userKey = await UserKey.findByOrFail('key', params.key)
+    const user = await userKey.related('user').query().firstOrFail()
+
+    return user
   }
 
-  public async update({ request }: HttpContextContract) {
-    const { key, password } = await request.validate(UpdateValidator)
-
+  public async update({ request, response }: HttpContextContract) {
+    const { key, name, password } = await request.validate(UpdateValidator)
     const userKey = await UserKey.findByOrFail('key', key)
+    const user = await userKey.related('user').query().firstOrFail()
 
-    userKey.load('user')
+    const username = name.split('')[0].toLocaleLowerCase() + new Date().getTime()
 
-    userKey.user.merge({ password })
+    user.merge({ name, password, username })
 
-    await userKey.user.save()
+    await user.save()
 
-    await userKey.delete()
-
-    return { message: 'password changed successfully' }
+    return response.ok({ message: 'password changed successfully' })
   }
 }

@@ -1,4 +1,4 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { StoreValidator } from 'App/Validators/Auth'
 
 export default class AuthController {
@@ -6,8 +6,9 @@ export default class AuthController {
     const { email, password } = await request.validate(StoreValidator)
 
     const token = await auth.attempt(email, password, {
-      expiresIn: '30 day',
+      expiresIn: '30 days',
     })
+
     return token
   }
 
