@@ -1,6 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 import './auth'
 import './users'
+import './uploads'
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -12,4 +13,8 @@ Route.get('/user-register', async ({ view }) => {
 
 Route.get('/forgot-password', async ({ view }) => {
   return view.render('emails/forgot-password')
+})
+
+Route.get('/uploads', async ({ view }) => {
+  return view.render('uploads')
 })
