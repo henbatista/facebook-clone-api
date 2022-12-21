@@ -1,9 +1,9 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { User } from 'App/Models'
 
 export default class UserSearchController {
   public async index({ request, response }: HttpContextContract) {
-    const { keyword } = request.get()
+    const { keyword } = request.qs()
 
     if (!keyword) {
       return response.status(422).send({
@@ -16,5 +16,7 @@ export default class UserSearchController {
       .orWhere('name', 'like', `%${keyword}%`)
       .orWhere('username', 'like', `%${keyword}%`)
       .preload('avatar')
+
+    return response.json(users)
   }
 }
