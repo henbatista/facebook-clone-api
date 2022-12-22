@@ -51,6 +51,7 @@ export default class User extends BaseModel {
     onQuery: (query) => query.where({ fileCategory: 'avatar' }),
   })
   public avatar: HasOne<typeof File>
-  @hasMany(() => User)
-  public user: HasMany<typeof User>
+
+  @hasMany(() => Post)
+  public posts: HasMany<typeof Post>
 }
