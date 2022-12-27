@@ -17,14 +17,14 @@ export default class Comment extends BaseModel {
 
   @column.dateTime({
     autoCreate: true,
-    serialize: (date: DateTime) => date.toFormat('dd/MM/YYYY HH:mm:ss'),
+    serialize: (date: DateTime) => date.toFormat('dd/MM/yyyy HH:mm:ss'),
   })
   public createdAt: DateTime
 
   @column.dateTime({
     autoCreate: true,
     autoUpdate: true,
-    serialize: (date: DateTime) => date.toFormat('dd/MM/YYYY HH:mm:ss'),
+    serialize: (date: DateTime) => date.toFormat('dd/MM/yyyy HH:mm:ss'),
   })
   public updatedAt: DateTime
 

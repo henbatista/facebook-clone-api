@@ -1,6 +1,6 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class extends BaseSchema {
+export default class Comments extends BaseSchema {
   protected tableName = 'comments'
 
   public async up() {
@@ -19,8 +19,7 @@ export default class extends BaseSchema {
         .references('posts.id')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamps(true)
     })
   }
 
