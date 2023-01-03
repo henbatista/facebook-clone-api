@@ -12,13 +12,47 @@ export default class PostsController {
 
     await user.load('posts', (query) => {
       query.orderBy('id', 'desc')
+
       query.preload('media')
+
+      query.withCount('comments')
+
       query.preload('user', (query) => {
         query.select('id', 'name', 'username')
         query.preload('avatar')
       })
-    })
+      query.preload('comments', (query) => {
+        query.select(['userId', 'id', 'content', 'createdAt'])
+        query.preload('user', (query) => {
+          query.select(['id', 'name', 'username'])
+          query.preload('avatar')
+        })
+      })
+      query.withCount('reactions', (query) => {
+        query.where('type', 'like')
+        query.as('likeCount')
+      })
+      query.withCount('reactions', (query) => {
+        query.where('type', 'love')
+        query.as('loveCount')
+      })
+      query.withCount('reactions', (query) => {
+        query.where('type', 'haha')
+        query.as('hahaCount')
+      })
+      query.withCount('reactions', (query) => {
+        query.where('type', 'sad')
+        query.as('sadCount')
+      })
+      query.withCount('reactions', (query) => {
+        query.where('type', 'angry')
+        query.as('angryCount')
+      })
 
+      query.preload('reactions', () => {
+        query.where('userId', auth.user!.id).first()
+      })
+    })
     return user.posts
   }
 

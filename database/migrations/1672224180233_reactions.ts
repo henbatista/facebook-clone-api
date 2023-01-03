@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 import { reactionsTypes } from 'App/Utils'
 
-export default class extends BaseSchema {
+export default class Reactions extends BaseSchema {
   protected tableName = 'reactions'
 
   public async up() {
@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table
         .integer('user_id')
         .unsigned()
-        .references('user.id')
+        .references('users.id')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
       table
