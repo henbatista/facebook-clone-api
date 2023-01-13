@@ -7,9 +7,15 @@ import './comments'
 import './reactions'
 import './follows'
 import './profiles'
+import './messages'
+import './conversations'
 
 Route.get('/', async () => {
   return { hello: 'world' }
+})
+
+Route.get('/test', async ({ view }) => {
+  return view.render('emails/test')
 })
 
 Route.get('/user-register', async ({ view }) => {

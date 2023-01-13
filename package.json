@@ -41,6 +41,7 @@
     "@faker-js/faker": "^7.6.0",
     "@japa/preset-adonis": "^1.2.0",
     "@japa/runner": "^2.2.2",
+    "@types/socket.io": "^3.0.2",
     "adonis-preset-ts": "^2.1.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.27.0",
@@ -69,6 +70,7 @@
     "phc-argon2": "^1.1.4",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
+    "socket.io": "^4.5.4",
     "source-map-support": "^0.5.21"
   }
 }
